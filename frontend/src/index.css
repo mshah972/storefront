@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    background: #f6f4ef;
+    color: #0e1116;
+    font-family: 'Urbanist', ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.005em;
+  }
+  h1, h2, h3, h4 {
+    font-family: 'Urbanist', ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+  ::selection {
+    background: #ffd6cc;
+    color: #0e1116;
+  }
+  *:focus { outline: none; }
+  *:focus-visible {
+    outline: 2px solid #ff5a36;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .eyebrow {
+    @apply font-mono uppercase tracking-widest2 text-[11px] text-ink-muted;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 text-sm font-medium
+           rounded-full transition active:scale-[0.98]
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-canvas hover:bg-ink-soft;
+  }
+  .btn-coral {
+    @apply btn bg-coral text-white hover:bg-coral-deep shadow-soft;
+  }
+  .btn-ghost {
+    @apply btn border border-line-strong text-ink bg-surface
+           hover:border-ink hover:bg-chalk;
+  }
+  .btn-light {
+    @apply btn bg-line/40 text-ink hover:bg-line;
+  }
+  .btn-link {
+    @apply text-ink hover:text-coral underline-offset-4 hover:underline cursor-pointer transition;
+  }
+
+  /* Surfaces */
+  .card {
+    @apply bg-surface border border-line rounded-2xl;
+  }
+  .card-soft {
+    @apply bg-chalk border border-line rounded-2xl;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full px-4 py-3 text-sm bg-surface border border-line-strong rounded-xl
+           text-ink placeholder-ink-ghost transition
+           focus:border-ink focus:ring-2 focus:ring-coral/15 focus:outline-none;
+  }
+  select.input {
+    @apply appearance-none pr-10
+           bg-[url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2012%208%22%20fill%3D%22none%22%20stroke%3D%22%235c6168%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M1%201l5%205%205-5%22/%3E%3C/svg%3E")]
+           bg-no-repeat bg-[length:12px] bg-[right_1rem_center];
+  }
+  .field-label {
+    @apply block text-[12px] font-semibold text-ink mb-1.5;
+  }
+
+  /* Pills / chips */
+  .pill {
+    @apply inline-flex items-center px-3 py-1 text-[11px] font-medium rounded-full
+           border border-line bg-surface text-ink-soft;
+  }
+  .pill-coral {
+    @apply pill bg-coral-tint border-coral/20 text-coral-ink;
+  }
+  .pill-ink {
+    @apply pill bg-ink text-canvas border-ink;
+  }
+  .pill-success {
+    @apply pill bg-emerald/10 text-emerald border-emerald/20;
+  }
+  .pill-danger {
+    @apply pill bg-danger/10 text-danger border-danger/20;
+  }
+  .pill-soft {
+    @apply pill bg-chalk border-line;
+  }
+
+  /* Tabs */
+  .tab {
+    @apply pb-3 border-b-2 border-transparent text-ink-muted text-sm font-medium
+           hover:text-ink transition cursor-pointer;
+  }
+  .tab-active {
+    @apply tab text-ink border-coral;
+  }
+
+  .divider {
+    @apply h-px w-full bg-line;
+  }
+
+  .skeleton {
+    @apply bg-line/60 animate-pulse rounded-xl;
+  }
+
+  /* Subtle hover lift for product/category cards */
+  .lift-on-hover {
+    @apply transition duration-300 hover:-translate-y-0.5 hover:shadow-lift;
+  }
+}

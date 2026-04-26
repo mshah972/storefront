@@ -1,0 +1,49 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpw
+      MYSQL_DATABASE: storefront
+      MYSQL_USER: storefront
+      MYSQL_PASSWORD: storefront
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      # Force TCP on 3306 so we don't pass against the init-time socket-only server.
+      test: ["CMD", "mysqladmin", "ping", "--protocol=tcp", "-h", "127.0.0.1", "-P", "3306", "-ustorefront", "-pstorefront"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  backend:
+    build: ./backend
+    restart: on-failure
+    environment:
+      DATABASE_URL: mysql+pymysql://storefront:storefront@db:3306/storefront
+      # Read from the host environment (or a local .env file). Falls back to a
+      # clearly-marked dev value so the demo runs out-of-the-box. In any real
+      # deployment, set JWT_SECRET to a long random string (e.g.
+      # `openssl rand -hex 32`) — never commit a production secret.
+      JWT_SECRET: ${JWT_SECRET:-dev-only-not-for-production-change-me}
+      CORS_ORIGINS: http://localhost:5173
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
